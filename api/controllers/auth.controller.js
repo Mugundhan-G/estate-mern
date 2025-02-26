@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { errorHandler } from "../utils/error.js";
 
 
 
@@ -24,7 +25,7 @@ export const signin = async (req, res, next) => {
     try{
         const validUser = await User.findOne({ email: email });
         if(!validUser){
-            return next(errorHandlerdler(404, 'user not found'))
+            return next(errorHandler(404, 'user not found'))
         };
         const validPassword = bcryptjs.compareSync(password, validUser.password);
         if(!validPassword){
